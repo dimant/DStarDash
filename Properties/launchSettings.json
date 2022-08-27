@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DStarDash": {
+      "commandName": "Project",
+      "commandLineArgs": "--download"
+    }
+  }
+}

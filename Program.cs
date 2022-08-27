@@ -1,16 +1,19 @@
 ﻿namespace DStarDash
 {
-    using HtmlAgilityPack;
-
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main(bool download)
         {
-            var doc = new HtmlDocument();
-            doc.Load(@"gateway.html");
-            var parser = new GatewayHtmlParser();
+            if(download)
+            {
+                var aggregator = new ReflectorAggregator();
 
-            var gateway = parser.ParseGateway(doc);
+                using (var progressBar = new ProgressBar("Downloading: "))
+                {
+                    Action<int, int> progress = (i, n) => progressBar.Report((double)i / n);
+                    aggregator.DownloadReflectorData(progress);
+                }
+            }
         }
     }
 }
