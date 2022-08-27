@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="gateway.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="reflectors.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
