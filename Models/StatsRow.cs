@@ -10,6 +10,8 @@
     {
         public string Name { get; }
 
+        public string Location { get; }
+
         public Status Status { get; }
 
         public int LinkedGateways { get; }
@@ -20,9 +22,10 @@
 
         public DateTime LastHeard { get; }
 
-        public StatsRow(string name, Status status, int linkedGateways, int remoteUsers, int heardUsers, DateTime lastHeard)
+        public StatsRow(string name, string location, Status status, int linkedGateways, int remoteUsers, int heardUsers, DateTime lastHeard)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
+            Location = location ?? throw new ArgumentException(nameof(location));
             Status = status;
             LinkedGateways = linkedGateways;
             RemoteUsers = remoteUsers;

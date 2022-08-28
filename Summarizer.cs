@@ -13,12 +13,13 @@
             foreach (var key in reflectors.Keys)
             {
                 var path = ReflectorAggregator.ReflectorPathFromUrl(key);
-                
+                var location = reflectors[key].Select(x => x.Location).First();
+
                 if (!File.Exists(path))
                 {
                     var name = ReflectorAggregator.ReflectorNameFromUrl(key);
                     var status = Status.Fail;
-                    var statsRow = new StatsRow(name, status, 0, 0, 0, DateTime.MinValue);
+                    var statsRow = new StatsRow(name, location, status, 0, 0, 0, DateTime.MinValue);
                     result.Add(statsRow);
                 }
                 else
@@ -44,6 +45,7 @@
                     {
                         var statsRow = new StatsRow(
                             reflector.Name,
+                            location,
                             Status.OK,
                             nGateways ?? 0,
                             nRemote ?? 0,
