@@ -19,18 +19,41 @@
                 {
                     var name = ReflectorAggregator.ReflectorNameFromUrl(key);
                     var status = Status.Fail;
-                    var statsRow = new StatsRow(name, location, status, 0, 0, 0, DateTime.MinValue);
+                    var statsRow = new StatsRow(name, location, status, 0, 0, 0, DateTime.MinValue, "");
                     result.Add(statsRow);
                 }
                 else
                 {
                     var reflector = reflectorParser.ParseFromFile(path);
 
-                    var nGateways =
-                        reflector?.LinkedGateways["Module A"].Count()
-                        + reflector?.LinkedGateways["Module B"].Count()
-                        + reflector?.LinkedGateways["Module C"].Count()
-                        + reflector?.LinkedGateways["Module D"].Count();
+                    var aCount = reflector?.LinkedGateways["Module A"].Count() ?? 0;
+                    var bCount = reflector?.LinkedGateways["Module B"].Count() ?? 0;
+                    var cCount = reflector?.LinkedGateways["Module C"].Count() ?? 0;
+                    var dCount = reflector?.LinkedGateways["Module D"].Count() ?? 0;
+
+
+                    var nGateways = aCount + bCount + cCount + dCount;
+
+                    var heardOnCounts = new Dictionary<string, int>();
+
+                    foreach (var heardUser in reflector?.HeardUsers ?? new List<ReflectorHeardUser>())
+                    {
+                        if (!heardOnCounts.ContainsKey(heardUser.HeardOn))
+                        {
+                            heardOnCounts[heardUser.HeardOn] = 1;
+                        }
+                        else
+                        {
+                            heardOnCounts[heardUser.HeardOn] += 1;
+                        }
+                    }
+
+                    string busiestModule = "";
+
+                    if (heardOnCounts.Count() > 0)
+                    {
+                        busiestModule = heardOnCounts.MaxBy(x => x.Value).Key;
+                    }
 
                     var nRemote = reflector?.RemoteUsers.Count();
                     var nHeard = reflector?.HeardUsers.Count();
@@ -47,10 +70,11 @@
                             reflector.Name,
                             location,
                             Status.OK,
-                            nGateways ?? 0,
+                            nGateways,
                             nRemote ?? 0,
                             nHeard ?? 0,
-                            last ?? DateTime.MinValue);
+                            last ?? DateTime.MinValue,
+                            busiestModule);
                         result.Add(statsRow);
                     }
                 }

@@ -63,12 +63,12 @@
                 summary = summary.Take(top).ToList();
             }
 
-            var table = new ConsoleTable("","Name", "Location", "Status", "Gw", "Remote", "Heard", "Last");
+            var table = new ConsoleTable("","Name", "Location", "Status", "Gw", "Remote", "Heard", "Last", "Busiest");
 
             int i = 1;
             foreach (var s in summary)
             {
-                table.AddRow(i++, s.Name, s.Location, s.Status, s.LinkedGateways, s.RemoteUsers, s.HeardUsers, s.LastHeard);
+                table.AddRow(i++, s.Name, s.Location, s.Status, s.LinkedGateways, s.RemoteUsers, s.HeardUsers, s.LastHeard, s.BusiestModule);
             }
         
             table.Write();

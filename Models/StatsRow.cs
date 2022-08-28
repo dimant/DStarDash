@@ -22,7 +22,17 @@
 
         public DateTime LastHeard { get; }
 
-        public StatsRow(string name, string location, Status status, int linkedGateways, int remoteUsers, int heardUsers, DateTime lastHeard)
+        public string BusiestModule { get; }
+
+        public StatsRow(
+            string name,
+            string location,
+            Status status,
+            int linkedGateways,
+            int remoteUsers,
+            int heardUsers,
+            DateTime lastHeard,
+            string busiestModule)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Location = location ?? throw new ArgumentException(nameof(location));
@@ -31,6 +41,7 @@
             RemoteUsers = remoteUsers;
             HeardUsers = heardUsers;
             LastHeard = lastHeard;
+            BusiestModule = busiestModule;
         }
     }
 }
