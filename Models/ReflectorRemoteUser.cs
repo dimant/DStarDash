@@ -1,6 +1,6 @@
 ﻿namespace DStarDash.Models
 {
-    public class GatewayRemoteUser
+    public class ReflectorRemoteUser
     {
         public string Callsign { get; set; } = string.Empty;
 

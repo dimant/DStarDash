@@ -4,10 +4,15 @@
 
     public class ReflectorAggregator
     {
+        public string ReflectorsPath { get; } = "reflectors.html";
+
         public void DownloadReflectorData(Action<int, int>? progress = null)
         {
             var downloader = new HttpDownloader();
-            var reflectors = this.ReflectorsFromUrl("http://apps.dstarinfo.com/reflectors.aspx");
+
+            downloader.DownloadFileAsync("http://apps.dstarinfo.com/reflectors.aspx", this.ReflectorsPath).Wait();
+
+            var reflectors = this.ReflectorsFromFile(this.ReflectorsPath);
 
             int n = reflectors.Keys.Count();
             int i = 0;
@@ -16,10 +21,7 @@
             {
                 if (key.Contains(".dstargateway.org"))
                 {
-                    var uri = new Uri(key);
-                    var segments = uri.Host.Split(".");
-                    var refname = segments[0];
-                    var path = $"{refname}.html";
+                    var path = ReflectorPathFromUrl(key);
 
                     try
                     {
@@ -39,20 +41,37 @@
             });
         }
 
+        public static string ReflectorNameFromUrl(string url)
+        {
+            var uri = new Uri(url);
+            var segments = uri.Host.Split(".");
+            var refname = segments[0];
+
+            return refname;
+        }
+
+        public static string ReflectorPathFromUrl(string url)
+        {
+            var refname = ReflectorNameFromUrl(url);
+            var path = $"{refname}.html";
+
+            return path;
+        }
+
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromFile(string path)
         {
-            var parser = new ReflectorHtmlParser();
+            var parser = new ReflectorListHtmlParser();
 
-            var modules = parser.ParseModulesFromFile(path);
+            var modules = parser.ParseFromFile(path);
 
             return Reflectors(modules);
         }
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromUrl(string url)
         {
-            var parser = new ReflectorHtmlParser();
+            var parser = new ReflectorListHtmlParser();
 
-            var modules = parser.ParseModulesFromUrl(url);
+            var modules = parser.ParseFromUrl(url);
 
             return Reflectors(modules);
         }
