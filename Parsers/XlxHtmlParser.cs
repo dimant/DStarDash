@@ -3,19 +3,9 @@
     using DStarDash.Models;
     using HtmlAgilityPack;
 
-    internal class XlxHtmlParser : IReflectorHtmlParser
+    internal class XlxHtmlParser : ReflectorHtmlParser
     {
-        Reflector? IReflectorHtmlParser.Parse(HtmlDocument doc)
-        {
-            throw new NotImplementedException();
-        }
-
-        Reflector? IReflectorHtmlParser.ParseFromFile(string path)
-        {
-            throw new NotImplementedException();
-        }
-
-        Reflector? IReflectorHtmlParser.ParseFromUrl(string url)
+        public override Reflector? Parse(HtmlDocument doc)
         {
             throw new NotImplementedException();
         }

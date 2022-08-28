@@ -6,7 +6,9 @@
     public interface IReflectorHtmlParser
     {
         Reflector? Parse(HtmlDocument doc);
+
         Reflector? ParseFromFile(string path);
+        
         Reflector? ParseFromUrl(string url);
     }
 }

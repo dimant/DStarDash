@@ -3,25 +3,9 @@
     using DStarDash.Models;
     using HtmlAgilityPack;
 
-    public class RefListHtmlParser : IReflectorListHtmlParser
+    public class RefListHtmlParser : ReflectorListHtmlParser
     {
-        public IEnumerable<ReflectorModule> ParseFromFile(string path)
-        {
-            var doc = new HtmlDocument();
-            doc.Load(path);
-
-            return Parse(doc);
-        }
-
-        public IEnumerable<ReflectorModule> ParseFromUrl(string url)
-        {
-            HtmlWeb web = new HtmlWeb();
-            var doc = web.Load(url);
-
-            return Parse(doc);
-        }
-
-        public IEnumerable<ReflectorModule> Parse(HtmlDocument doc)
+        public override IEnumerable<ReflectorModule> Parse(HtmlDocument doc)
         {
             var reflectorModules = new List<ReflectorModule>();
 
@@ -34,19 +18,20 @@
                 var usage = row.SelectSingleNode(".//span[contains(@id,'UsageLabel')]")?.InnerText;
                 var location = row.SelectSingleNode(".//span[contains(@id,'LocationLabel')]")?.InnerText;
 
-                var status = row
+                var url = row
                     .SelectSingleNode(".//span[contains(@id,'LinksLabel')]/a[.='Status']")?
                     .GetAttributeValue("href", "");
 
-                var speed = row.SelectSingleNode(".//span[contains(@id,'SpeedLabel')]")?.InnerText;
+                var uri = new Uri(url ?? string.Empty);
+                var name = uri.Host.Split('.').First();
 
                 var reflectorModule = new ReflectorModule()
                 {
                     Module = module ?? string.Empty,
+                    Name = name.ToUpper(),
                     Location = location ?? string.Empty,
                     Usage = usage ?? string.Empty,
-                    Status = status ?? string.Empty,
-                    Speed = speed ?? string.Empty,
+                    Url = url ?? string.Empty,
                 };
 
                 reflectorModules.Add(reflectorModule);

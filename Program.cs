@@ -16,7 +16,14 @@
             Xlx
         }
 
-        static void Main(ReflectorType reflectorType, bool download, string sortby, int top)
+        static void Main(string[] args)
+        {
+            var parser = new XlxListHtmlParser();
+
+            parser.ParseFromFile("sample-data/xlx-listing.html");
+        }
+
+        static void xMain(ReflectorType reflectorType, bool download, string sortby, int top)
         {
             switch (reflectorType)
             {

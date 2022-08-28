@@ -9,8 +9,6 @@
         public Reflector(
             string name,
             string version,
-            Dictionary<string, List<string>> linkedGateways,
-            IEnumerable<ReflectorRemoteUser> remoteUsers,
             IEnumerable<ReflectorHeardUser> heardUsers)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));

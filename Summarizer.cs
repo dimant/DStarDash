@@ -18,12 +18,12 @@
 
             foreach (var key in reflectors.Keys)
             {
-                var path = ReflectorAggregator.ReflectorPathFromUrl(key);
+                var name = reflectors[key].First().Name;
+                var path = $"{name}.html";
                 var location = reflectors[key].Select(x => x.Location).First();
 
                 if (!File.Exists(path))
                 {
-                    var name = ReflectorAggregator.ReflectorNameFromUrl(key);
                     var status = Status.Fail;
                     var statsRow = new StatsRow(name, location, status, 0, DateTime.MinValue, "");
                     result.Add(statsRow);

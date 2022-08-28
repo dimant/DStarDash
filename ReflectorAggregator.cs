@@ -30,17 +30,16 @@
 
             Parallel.ForEach(reflectors.Keys, (key) =>
             {
-                if (key.Contains(".dstargateway.org"))
-                {
-                    var path = ReflectorPathFromUrl(key);
+                var name = reflectors[key].First().Name;
 
-                    try
-                    {
-                        downloader.DownloadFileAsync(key, path).Wait();
-                    }
-                    catch (Exception /* e */)
-                    {
-                    }
+                var path = $"{name}.html";
+
+                try
+                {
+                    downloader.DownloadFileAsync(key, path).Wait();
+                }
+                catch (Exception /* e */)
+                {
                 }
 
                 if (progress != null)
@@ -50,22 +49,6 @@
 
                 i++;
             });
-        }
-
-        public static string ReflectorNameFromUrl(string url)
-        {
-            var uri = new Uri(url);
-            var refname = uri.Host.Replace(".", "_");
-
-            return refname;
-        }
-
-        public static string ReflectorPathFromUrl(string url)
-        {
-            var refname = ReflectorNameFromUrl(url);
-            var path = $"{refname}.html";
-
-            return path;
         }
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromFile(string path)
@@ -88,19 +71,19 @@
 
             foreach (var module in modules)
             {
-                if (string.IsNullOrEmpty(module.Status))
+                if (string.IsNullOrEmpty(module.Url))
                 {
                     continue;
                 }
 
-                if (reflectors.ContainsKey(module.Status))
+                if (reflectors.ContainsKey(module.Url))
                 {
-                    reflectors[module.Status].Add(module);
+                    reflectors[module.Url].Add(module);
                 }
                 else
                 {
-                    reflectors[module.Status] = new List<ReflectorModule>();
-                    reflectors[module.Status].Add(module);
+                    reflectors[module.Url] = new List<ReflectorModule>();
+                    reflectors[module.Url].Add(module);
                 }
             }
 
