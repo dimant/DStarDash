@@ -57,11 +57,11 @@
 
                     var nRemote = reflector?.RemoteUsers.Count();
                     var nHeard = reflector?.HeardUsers.Count();
-                    DateTime? last = DateTime.MinValue;
+                    ReflectorHeardUser? last = null;
                     
                     if (nHeard > 0)
                     {
-                        last = reflector?.HeardUsers.Max(x => x.HeardAt);
+                        last = reflector?.HeardUsers.MaxBy(x => x.HeardAt);
                     }
 
                     if (reflector != null)
@@ -73,7 +73,7 @@
                             nGateways,
                             nRemote ?? 0,
                             nHeard ?? 0,
-                            last ?? DateTime.MinValue,
+                            last?.HeardAt ?? DateTime.MinValue,
                             busiestModule);
                         result.Add(statsRow);
                     }
