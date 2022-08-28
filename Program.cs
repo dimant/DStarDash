@@ -1,19 +1,41 @@
 ﻿namespace DStarDash
 {
+    using DStarDash.Parsers;
     using ConsoleTables;
+    using DStarDash.Models;
 
     internal class Program
     {
-        static void Main(bool download, string sortby, int top)
+        private static ReflectorAggregator? aggregator;
+
+        private static Summarizer? summarizer;
+
+        public enum ReflectorType
         {
+            Ref,
+            Xlx
+        }
+
+        static void Main(ReflectorType reflectorType, bool download, string sortby, int top)
+        {
+            switch (reflectorType)
+            {
+                case ReflectorType.Ref:
+                    aggregator = new ReflectorAggregator("ref-reflectors.html", new RefListHtmlParser());
+                    summarizer = new Summarizer(new RefHtmlParser());
+                    break;
+                case ReflectorType.Xlx:
+                    aggregator = new ReflectorAggregator("xlx-reflectors.html", new XlxListHtmlParser());
+                    summarizer = new Summarizer(new XlxHtmlParser());
+                    break;
+            }
+
             if(download)
             {
-                var aggregator = new ReflectorAggregator();
-
                 using (var progressBar = new ProgressBar("Downloading: "))
                 {
                     Action<int, int> progress = (i, n) => progressBar.Report((double)i / n);
-                    aggregator.DownloadReflectorData(progress);
+                    aggregator?.DownloadReflectorData(progress);
                 }
             }
 
@@ -22,16 +44,18 @@
 
         public static void PrintStats(string sortby, int top)
         {
-            var aggregator = new ReflectorAggregator();
-
-            if (!File.Exists(aggregator.ReflectorsPath))
+            if (!File.Exists(aggregator?.ReflectorsPath))
             {
-                throw new Exception($"{aggregator.ReflectorsPath} does not exist, download data first.");
+                throw new Exception($"{aggregator?.ReflectorsPath} does not exist, download data first.");
             }
 
-            var reflectors = aggregator.ReflectorsFromFile(aggregator.ReflectorsPath);
-            var summarizer = new Summarizer();
-            var summary = summarizer.Summarize(reflectors);
+            var reflectors = aggregator?.ReflectorsFromFile(aggregator.ReflectorsPath);
+            if (reflectors == null)
+            {
+                return;
+            }
+
+            var summary = summarizer?.Summarize(reflectors) ?? new List<StatsRow>();
 
             if (!string.IsNullOrEmpty(sortby))
             {
@@ -39,12 +63,6 @@
                 {
                     case "Status":
                         summary.Sort((x, y) => x.Status.CompareTo(y.Status));
-                        break;
-                    case "Gw":
-                        summary.Sort((x, y) => y.LinkedGateways.CompareTo(x.LinkedGateways));
-                        break;
-                    case "Remote":
-                        summary.Sort((x, y) => y.RemoteUsers.CompareTo(x.RemoteUsers));
                         break;
                     case "Heard":
                         summary.Sort((x, y) => y.HeardUsers.CompareTo(x.HeardUsers));
@@ -63,12 +81,12 @@
                 summary = summary.Take(top).ToList();
             }
 
-            var table = new ConsoleTable("","Name", "Location", "Status", "Gw", "Remote", "Heard", "Last", "Busiest");
+            var table = new ConsoleTable("","Name", "Location", "Status", "Heard", "Last", "Busiest");
 
             int i = 1;
             foreach (var s in summary)
             {
-                table.AddRow(i++, s.Name, s.Location, s.Status, s.LinkedGateways, s.RemoteUsers, s.HeardUsers, s.LastHeard, s.BusiestModule);
+                table.AddRow(i++, s.Name, s.Location, s.Status, s.HeardUsers, s.LastHeard.ToLocalTime(), s.BusiestModule);
             }
         
             table.Write();

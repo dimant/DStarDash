@@ -1,10 +1,21 @@
 ﻿namespace DStarDash
 {
+    using DStarDash.Parsers;
     using DStarDash.Models;
 
     public class ReflectorAggregator
     {
-        public string ReflectorsPath { get; } = "reflectors.html";
+        public string ReflectorsPath { get; }
+
+        private IReflectorListHtmlParser reflectorListHtmlParser;
+
+        public ReflectorAggregator(
+            string reflectorsPath, 
+            IReflectorListHtmlParser reflectorListHtmlParser)
+        {
+            this.ReflectorsPath = reflectorsPath ?? throw new ArgumentNullException(nameof(reflectorsPath));
+            this.reflectorListHtmlParser = reflectorListHtmlParser ?? throw new ArgumentNullException(nameof(reflectorListHtmlParser));
+        }
 
         public void DownloadReflectorData(Action<int, int>? progress = null)
         {
@@ -44,8 +55,7 @@
         public static string ReflectorNameFromUrl(string url)
         {
             var uri = new Uri(url);
-            var segments = uri.Host.Split(".");
-            var refname = segments[0];
+            var refname = uri.Host.Replace(".", "_");
 
             return refname;
         }
@@ -60,18 +70,14 @@
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromFile(string path)
         {
-            var parser = new ReflectorListHtmlParser();
-
-            var modules = parser.ParseFromFile(path);
+            var modules = this.reflectorListHtmlParser.ParseFromFile(path);
 
             return Reflectors(modules);
         }
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromUrl(string url)
         {
-            var parser = new ReflectorListHtmlParser();
-
-            var modules = parser.ParseFromUrl(url);
+            var modules = this.reflectorListHtmlParser.ParseFromUrl(url);
 
             return Reflectors(modules);
         }

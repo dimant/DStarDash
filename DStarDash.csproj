@@ -22,10 +22,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="gateway.html">
+    <None Update="sample-data\ref-reflector.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="reflectors.html">
+    <None Update="sample-data\ref-listing.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample-data\xlx-listing.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample-data\xlx-reflector.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

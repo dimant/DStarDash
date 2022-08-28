@@ -1,16 +1,16 @@
-﻿namespace DStarDash
+﻿namespace DStarDash.Parsers
 {
     using DStarDash.Models;
     using HtmlAgilityPack;
 
-    public class ReflectorHtmlParser
+    public class RefHtmlParser : IReflectorHtmlParser
     {
         public Reflector? ParseFromFile(string path)
         {
             var doc = new HtmlDocument();
             doc.Load(path);
 
-            return this.Parse(doc);
+            return Parse(doc);
         }
 
         public Reflector? ParseFromUrl(string url)
@@ -18,7 +18,7 @@
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return this.Parse(doc);
+            return Parse(doc);
         }
 
         public Reflector? Parse(HtmlDocument doc)

@@ -1,0 +1,478 @@
+
+<!DOCTYPE html PUBLIC"- //W3C//DTD XHTML 1.0 Strict //EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="XLX is a D-Star Reflector System for Ham Radio Operators." />
+    <meta name="keywords" content="Ham Radio, D-Star, XReflector, XLX, XRF, DCS, REF, " />
+    <meta name="author" content="LX1IQ" />
+    <meta name="revisit" content="After 30 Days" />
+    <meta name="robots" content="LX1IQ" />
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>XLX801 Reflector Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="./css/layout.css">
+    <link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon">
+    <script>
+     var PageRefresh;
+
+      function ReloadPage() {
+         document.location.href = "./index.php";
+      }
+     PageRefresh = setTimeout(ReloadPage, 50000);
+
+      function SuspendPageRefresh() {
+        clearTimeout(PageRefresh);
+      }
+    </script>
+</head>
+<body>
+    <div id="top">
+        <img src="./img/header.jpg " alt="XLX 801" style="margin-top:1px;" />
+        <br />&nbsp;&nbsp;&nbsp;XLX801   <a href="http://oe1xfv.ddns.net:8080">**DASHBOARD-RPT-OE1XFV**</a> &nbsp;v2.4.1&nbsp;-&nbsp;Dashboard v2.3.8&nbsp;&nbsp;/&nbsp;&nbsp;Service uptime: <span id="suptime">78 days 21:28:09</span>
+    </div>
+    <div id="menubar"
+      <div id="menu">
+         <table border="0">
+            <tr>
+               <td><a href="./index.php" class="menulinkactive">Users / Modules</a></td>
+               <td><a href="./index.php?show=repeaters" class="menulink">Repeaters / Nodes (7)</a></td>
+               <td><a href="./index.php?show=peers" class="menulink">Peers (9)</a></td>
+               <td><a href="./index.php?show=reflectors" class="menulink">Reflectorlist</a></td>
+               <td><a href="./index.php?show=liveircddb" class="menulink">ircDDB live</a></td>
+               <td><a href="./index.php?show=ipsc2_dmo" class="menulink">IPSC2-OE-DMO / MASTER</a></td>
+               <td><a href="./index.php?show=xlx803" class="menulink">XLX803</a></td>
+			   <td><a href="./index.php?show=adl329" class="menulink">ADL329</a></td>
+			   <td><a href="./index.php?show=xlx-info" class="menulink">XLX-INFO</a></td>
+
+               <td><a href="./index.php?show=traffic" class="menulink">Traffic</a></td>            </tr>
+          </table>
+      </div>
+   </div>
+    <div id="content" align="center">
+
+        <table border="0">
+            <tr>
+                <td valign="top">
+
+
+                    <table class="listingtable">
+                        <tr>
+                            <th colspan="8">
+                                <table width="100%" border="0">
+                                    <tr>
+                                        <td align="left">
+                                            <form name="frmFilterCallSign" method="post" action="./index.php">
+                                                <input type="hidden" name="do" value="SetFilter" />
+                                                <input type="text" class="FilterField" value="" name="txtSetCallsignFilter" placeholder="Callsign" onfocus="SuspendPageRefresh();" onblur="setTimeout(ReloadPage, 50000);" />
+                                                <input type="submit" value="Apply" class="FilterSubmit" />
+                                            </form>
+                                        </td>
+                                        <td align="right" style="padding-right:3px;">
+                                            <form name="frmFilterModule" method="post" action="./index.php">
+                                                <input type="hidden" name="do" value="SetFilter" />
+                                                <input type="text" class="FilterField" value="" name="txtSetModuleFilter" placeholder="Module" onfocus="SuspendPageRefresh();" onblur="setTimeout(ReloadPage, 50000);" />
+                                                <input type="submit" value="Apply" class="FilterSubmit" />
+                                            </form>
+                                        </td>
+                                </table>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Flag</th>
+                            <th>Callsign</th>
+                            <th>Suffix</th>
+                            <th>DPRS</th>
+                            <th>Via / Peer</th>
+                            <th>Last heard</th>
+                            <th align="center" valign="middle"><img src="./img/ear.png" alt="Listening on" /></th>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">1</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE3MJA" class="pl" target="_blank">OE3MJA</a></td>
+                            <td width="60">SEPP</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE3MJA" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE3MJA  D / XLX232</td>
+                            <td width="150">28.08.2022 17:35</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">2</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DL8MEM" class="pl" target="_blank">DL8MEM</a></td>
+                            <td width="60"></td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DL8MEM" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">XRF022  G / XLX022</td>
+                            <td width="150">28.08.2022 17:12</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">3</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DK3PG" class="pl" target="_blank">DK3PG</a></td>
+                            <td width="60">ID52</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DK3PG" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DK3PG   D / XLX022</td>
+                            <td width="150">28.08.2022 17:03</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">4</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DL9RDD" class="pl" target="_blank">DL9RDD</a></td>
+                            <td width="60"></td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DL9RDD" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5XDN  B / XLX022</td>
+                            <td width="150">28.08.2022 17:03</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">5</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE3AAS" class="pl" target="_blank">OE3AAS</a></td>
+                            <td width="60">RUDI</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE3AAS" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE3AAS  C</td>
+                            <td width="150">28.08.2022 16:37</td>
+                            <td align="center" width="30">X</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">6</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE3FPA" class="pl" target="_blank">OE3FPA</a></td>
+                            <td width="60">UP4D</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE3FPA" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE3XNR  B / XLX232</td>
+                            <td width="150">28.08.2022 15:31</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">7</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DK5RF" class="pl" target="_blank">DK5RF</a></td>
+                            <td width="60">DMR</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DK5RF" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">XLX801  G / BM2321</td>
+                            <td width="150">28.08.2022 15:30</td>
+                            <td align="center" width="30">Y</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">8</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DL4HBB" class="pl" target="_blank">DL4HBB</a></td>
+                            <td width="60">E04</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DL4HBB" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DB0XJ   B / XLX232</td>
+                            <td width="150">28.08.2022 14:22</td>
+                            <td align="center" width="30">B</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">9</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5ACN" class="pl" target="_blank">OE5ACN</a></td>
+                            <td width="60">AMBE</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5ACN" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5ACN  D / XLX232</td>
+                            <td width="150">28.08.2022 13:50</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">10</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE8DKR" class="pl" target="_blank">OE8DKR</a></td>
+                            <td width="60">ID52</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE8DKR" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE8XVK  B / XLX232</td>
+                            <td width="150">28.08.2022 13:43</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">11</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE1MRC" class="pl" target="_blank">OE1MRC</a></td>
+                            <td width="60">ID51</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE1MRC" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE1XQU  B / XLX232</td>
+                            <td width="150">28.08.2022 13:12</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">12</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DD2DF" class="pl" target="_blank">DD2DF</a></td>
+                            <td width="60">UP4D</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DD2DF" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DD2DF   D / XLX232</td>
+                            <td width="150">28.08.2022 12:54</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">13</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5VVM" class="pl" target="_blank">OE5VVM</a></td>
+                            <td width="60">JN67</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5VVM" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5XGL  B / XLX232</td>
+                            <td width="150">28.08.2022 12:33</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">14</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5LAL" class="pl" target="_blank">OE5LAL</a></td>
+                            <td width="60">INFO</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5LAL" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5LAL  B / XLX232</td>
+                            <td width="150">28.08.2022 12:31</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">15</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE6SDG" class="pl" target="_blank">OE6SDG</a></td>
+                            <td width="60">9700</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE6SDG" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE6SDG  B / XLX022</td>
+                            <td width="150">28.08.2022 12:30</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">16</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE8BKX" class="pl" target="_blank">OE8BKX</a></td>
+                            <td width="60"></td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE8BKX" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE8XVK  B / XLX232</td>
+                            <td width="150">28.08.2022 12:24</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">17</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE9KHJ" class="pl" target="_blank">OE9KHJ</a></td>
+                            <td width="60">705</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE9KHJ" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE9KHJ  Z / XLX232</td>
+                            <td width="150">28.08.2022 11:50</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">18</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE7CKI" class="pl" target="_blank">OE7CKI</a></td>
+                            <td width="60">UP4D</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE7CKI" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE7CKI  D / XLX022</td>
+                            <td width="150">28.08.2022 11:42</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">19</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE2WIO" class="pl" target="_blank">OE2WIO</a></td>
+                            <td width="60">9700</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE2WIO" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">XRF022  G / XLX022</td>
+                            <td width="150">28.08.2022 11:41</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">20</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DD3SK" class="pl" target="_blank">DD3SK</a></td>
+                            <td width="60"></td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DD3SK" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5XDN  B / XLX022</td>
+                            <td width="150">28.08.2022 11:00</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">21</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5MXL" class="pl" target="_blank">OE5MXL</a></td>
+                            <td width="60">DV4M</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5MXL" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5MXL  B / XLX232</td>
+                            <td width="150">28.08.2022 10:31</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">22</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/ch.png" height="15" alt="Switzerland" /><span>Switzerland</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/HB3XTK" class="pl" target="_blank">HB3XTK</a></td>
+                            <td width="60">D74</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/HB3XTK" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">HB3XTK  B / XLX232</td>
+                            <td width="150">28.08.2022 10:14</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">23</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE1PHS" class="pl" target="_blank">OE1PHS</a></td>
+                            <td width="60">ID52</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE1PHS" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE1PHS  B</td>
+                            <td width="150">28.08.2022 10:00</td>
+                            <td align="center" width="30">X</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">24</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DL7AHD" class="pl" target="_blank">DL7AHD</a></td>
+                            <td width="60">PORT</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DL7AHD" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DL7AHD  D / XLX232</td>
+                            <td width="150">28.08.2022 08:30</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">25</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/us.png" height="15" alt="United States" /><span>United States</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/AI6VW" class="pl" target="_blank">AI6VW</a></td>
+                            <td width="60">ID52</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/AI6VW" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">AI6VW   D</td>
+                            <td width="150">28.08.2022 07:14</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">26</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE8KKK" class="pl" target="_blank">OE8KKK</a></td>
+                            <td width="60"></td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE8KKK" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE8XKK  B / XLX232</td>
+                            <td width="150">27.08.2022 23:26</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">27</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/de.png" height="15" alt="Germany" /><span>Germany</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/DG9DAB" class="pl" target="_blank">DG9DAB</a></td>
+                            <td width="60">D74</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/DG9DAB" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DG9DAB  D / XLX232</td>
+                            <td width="150">27.08.2022 19:23</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">28</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5APN" class="pl" target="_blank">OE5APN</a></td>
+                            <td width="60">ID52</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5APN" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE5XOL  B / XLX232</td>
+                            <td width="150">27.08.2022 18:02</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">29</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE1AWV" class="pl" target="_blank">OE1AWV</a></td>
+                            <td width="60">I705</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE1AWV" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE3XNK  B / XLX232</td>
+                            <td width="150">27.08.2022 18:00</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                            <td align="center" valign="middle" width="35">30</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE5MHX" class="pl" target="_blank">OE5MHX</a></td>
+                            <td width="60">0314</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE5MHX" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">DB0MMR  B / XLX022</td>
+                            <td width="150">27.08.2022 16:42</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+                        <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                            <td align="center" valign="middle" width="35">31</td>
+                            <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/at.png" height="15" alt="Austria" /><span>Austria</span></a></td>
+                            <td width="75"><a href="https://www.qrz.com/db/OE1DHK" class="pl" target="_blank">OE1DHK</a></td>
+                            <td width="60">D74</td>
+                            <td width="50" align="center"><a href="http://www.aprs.fi/OE1DHK" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+                            <td width="150">OE1DHK  B / XLX232</td>
+                            <td width="150">27.08.2022 16:37</td>
+                            <td align="center" width="30">A</td>
+                        </tr>
+
+                    </table>
+
+
+                </td>
+                <td style="padding-left:50px;" align="center" valign="top">
+
+
+
+
+                    <table class="listingtable">
+
+                        <tr>
+
+                            <th>DSTAR-OE Terminal/AP ICOM<br />A</th>
+
+
+                            <th>DMR-TEST<br />D</th>
+
+
+                            <th>OE1XFV DSTAR-Terminal/AP ICOM<br />X</th>
+
+                        </tr>
+                        <tr bgcolor="#FFFFFF" style="padding:0px;">
+                            <td valign="top" style="border:0px;padding:0px;">
+
+                                <table width="100" border="0" style="padding:0px;margin:0px;">
+                                    <tr height="25" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/AI6VW-D" class="pl" target="_blank">AI6VW-D</a> </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                            <td valign="top" style="border:0px;padding:0px;">
+
+                                <table width="100" border="0" style="padding:0px;margin:0px;">
+                                    <tr height="25" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE3AAS-B" class="pl" target="_blank">OE3AAS-B</a> </td>
+                                    </tr>
+                                    <tr height="25" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE1PHS-B" class="pl" target="_blank">OE1PHS-B</a> </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                            <td valign="top" style="border:0px;padding:0px;">
+
+                                <table width="100" border="0" style="padding:0px;margin:0px;">
+                                    <tr height="25" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE3AAS-C" class="pl" target="_blank">OE3AAS-C</a> </td>
+                                    </tr>
+                                    <tr height="25" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE1PHS-B" class="pl" target="_blank">OE1PHS-B</a> </td>
+                                    </tr>
+                                    <tr height="25" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE1CMW-B" class="pl" target="_blank">OE1CMW-B</a> </td>
+                                    </tr>
+                                    <tr height="25" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+                                        <td valign="top" style="border-bottom:1px #C1DAD7 solid;"><a href="http://www.aprs.fi/OE6FEF-B" class="pl" target="_blank">OE6FEF-B</a> </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </td>
+            </tr>
+        </table>
+
+        <div style="width:100%;text-align:center;margin-top:50px;"><a href="mailto:oe1phs@oevsv.at" style="font-family:verdana;color:#F2F2F2;font-size:12pt;text-decoration:none;">oe1phs@oevsv.at</a></div>
+
+    </div>
+    <body style="background-color: #8e0025; ">
+    </body>
+</html>

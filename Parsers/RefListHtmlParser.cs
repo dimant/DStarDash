@@ -1,16 +1,16 @@
-﻿namespace DStarDash
+﻿namespace DStarDash.Parsers
 {
     using DStarDash.Models;
     using HtmlAgilityPack;
-    
-    public class ReflectorListHtmlParser
+
+    public class RefListHtmlParser : IReflectorListHtmlParser
     {
         public IEnumerable<ReflectorModule> ParseFromFile(string path)
         {
             var doc = new HtmlDocument();
             doc.Load(path);
 
-            return this.Parse(doc);
+            return Parse(doc);
         }
 
         public IEnumerable<ReflectorModule> ParseFromUrl(string url)
@@ -18,7 +18,7 @@
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return this.Parse(doc);
+            return Parse(doc);
         }
 
         public IEnumerable<ReflectorModule> Parse(HtmlDocument doc)
@@ -42,11 +42,11 @@
 
                 var reflectorModule = new ReflectorModule()
                 {
-                    Module = module ?? String.Empty,
+                    Module = module ?? string.Empty,
                     Location = location ?? string.Empty,
-                    Usage = usage ?? String.Empty,
-                    Status = status ?? String.Empty,
-                    Speed = speed ?? String.Empty,
+                    Usage = usage ?? string.Empty,
+                    Status = status ?? string.Empty,
+                    Speed = speed ?? string.Empty,
                 };
 
                 reflectorModules.Add(reflectorModule);

@@ -1,13 +1,19 @@
 ﻿namespace DStarDash
 {
     using DStarDash.Models;
+    using DStarDash.Parsers;
 
     public class Summarizer
     {
+        private IReflectorHtmlParser reflectorHtmlParser;
+
+        public Summarizer(IReflectorHtmlParser reflectorHtmlParser)
+        {
+            this.reflectorHtmlParser = reflectorHtmlParser ?? throw new ArgumentNullException(nameof(reflectorHtmlParser));
+        }
+
         public List<StatsRow> Summarize(IDictionary<string, List<ReflectorModule>> reflectors)
         {
-            var reflectorParser = new ReflectorHtmlParser();
-
             var result = new List<StatsRow>();
 
             foreach (var key in reflectors.Keys)
@@ -19,20 +25,12 @@
                 {
                     var name = ReflectorAggregator.ReflectorNameFromUrl(key);
                     var status = Status.Fail;
-                    var statsRow = new StatsRow(name, location, status, 0, 0, 0, DateTime.MinValue, "");
+                    var statsRow = new StatsRow(name, location, status, 0, DateTime.MinValue, "");
                     result.Add(statsRow);
                 }
                 else
                 {
-                    var reflector = reflectorParser.ParseFromFile(path);
-
-                    var aCount = reflector?.LinkedGateways["Module A"].Count() ?? 0;
-                    var bCount = reflector?.LinkedGateways["Module B"].Count() ?? 0;
-                    var cCount = reflector?.LinkedGateways["Module C"].Count() ?? 0;
-                    var dCount = reflector?.LinkedGateways["Module D"].Count() ?? 0;
-
-
-                    var nGateways = aCount + bCount + cCount + dCount;
+                    var reflector = this.reflectorHtmlParser.ParseFromFile(path);
 
                     var heardOnCounts = new Dictionary<string, int>();
 
@@ -55,7 +53,6 @@
                         busiestModule = heardOnCounts.MaxBy(x => x.Value).Key;
                     }
 
-                    var nRemote = reflector?.RemoteUsers.Count();
                     var nHeard = reflector?.HeardUsers.Count();
                     ReflectorHeardUser? last = null;
                     
@@ -70,8 +67,6 @@
                             reflector.Name,
                             location,
                             Status.OK,
-                            nGateways,
-                            nRemote ?? 0,
                             nHeard ?? 0,
                             last?.HeardAt ?? DateTime.MinValue,
                             busiestModule);

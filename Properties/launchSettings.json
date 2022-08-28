@@ -1,7 +1,8 @@
 {
   "profiles": {
     "DStarDash": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": " --sortby Last --top 15  --download"
     }
   }
 }
