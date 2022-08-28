@@ -7,13 +7,17 @@
     {
         public string ReflectorsPath { get; }
 
+        public string ReflectorsUrl { get; }
+
         private IReflectorListHtmlParser reflectorListHtmlParser;
 
         public ReflectorAggregator(
             string reflectorsPath, 
+            string reflectorsUrl,
             IReflectorListHtmlParser reflectorListHtmlParser)
         {
             this.ReflectorsPath = reflectorsPath ?? throw new ArgumentNullException(nameof(reflectorsPath));
+            this.ReflectorsUrl = reflectorsUrl ?? throw new ArgumentNullException(nameof(reflectorsUrl));
             this.reflectorListHtmlParser = reflectorListHtmlParser ?? throw new ArgumentNullException(nameof(reflectorListHtmlParser));
         }
 
@@ -21,7 +25,7 @@
         {
             var downloader = new HttpDownloader();
 
-            downloader.DownloadFileAsync("http://apps.dstarinfo.com/reflectors.aspx", this.ReflectorsPath).Wait();
+            downloader.DownloadFileAsync(this.ReflectorsUrl, this.ReflectorsPath).Wait();
 
             var reflectors = this.ReflectorsFromFile(this.ReflectorsPath);
 

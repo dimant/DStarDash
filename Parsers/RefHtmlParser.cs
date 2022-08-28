@@ -23,16 +23,6 @@
 
         public Reflector? Parse(HtmlDocument doc)
         {
-            var gwinfo = doc.DocumentNode
-                .SelectSingleNode("//table/tr/td/table[@id='navigation']/tr/td[contains(.,'DREFD version')]/strong");
-
-            if (gwinfo == null)
-            {
-                return null;
-            }
-
-            var version = gwinfo.InnerText;
-
             var refsysname = doc.DocumentNode.SelectSingleNode("//table/tr/td/table/tr/td/strong[contains(.,'Reflector System')]").InnerHtml;
             var name = refsysname.Split(' ')[0];
 
@@ -41,7 +31,7 @@
 
             var heardUsers = ParseHeardUsers(heardTable);
 
-            return new Reflector(name, version, heardUsers);
+            return new Reflector(name, heardUsers);
         }
 
         private IEnumerable<ReflectorHeardUser> ParseHeardUsers(HtmlNode remoteTable)
@@ -62,11 +52,6 @@
                         remoteUser.Callsign = cols[0];
                     }
 
-                    if (cols[1] != string.Empty)
-                    {
-                        remoteUser.Message = cols[1];
-                    }
-
                     if (cols[2] != string.Empty)
                     {
                         remoteUser.HeardOn = cols[2];
@@ -74,7 +59,7 @@
 
                     if (cols[3] != string.Empty)
                     {
-                        remoteUser.HeardAt = DateTime.Parse(cols[3]);
+                        remoteUser.LastHeard = DateTime.Parse(cols[3]);
                     }
 
                     remoteUsers.Add(remoteUser);

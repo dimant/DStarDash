@@ -10,10 +10,15 @@
             var reflectorModules = new List<ReflectorModule>();
 
             var rows = doc.DocumentNode
-                .SelectNodes("//table[@id='ListView1_itemPlaceholderContainer']/tr/td")
-                .Select(x => x.ParentNode);
+                .SelectNodes("//table[@id='ListView1_itemPlaceholderContainer']/tr");
+
             foreach (var row in rows)
             {
+                if (row.SelectNodes(".//td") == null)
+                {
+                    continue;
+                }
+
                 var module = row.SelectSingleNode(".//span[contains(@id,'ReflectorLabel')]")?.InnerText;
                 var usage = row.SelectSingleNode(".//span[contains(@id,'UsageLabel')]")?.InnerText;
                 var location = row.SelectSingleNode(".//span[contains(@id,'LocationLabel')]")?.InnerText;

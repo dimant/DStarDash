@@ -16,23 +16,22 @@
             Xlx
         }
 
-        static void Main(string[] args)
+        static void Main(ReflectorType type, bool download, string sortby, int top)
         {
-            var parser = new XlxListHtmlParser();
-
-            parser.ParseFromFile("sample-data/xlx-listing.html");
-        }
-
-        static void xMain(ReflectorType reflectorType, bool download, string sortby, int top)
-        {
-            switch (reflectorType)
+            switch (type)
             {
                 case ReflectorType.Ref:
-                    aggregator = new ReflectorAggregator("ref-reflectors.html", new RefListHtmlParser());
+                    aggregator = new ReflectorAggregator(
+                        "ref-reflectors.html",
+                        "http://apps.dstarinfo.com/reflectors.aspx",
+                        new RefListHtmlParser());
                     summarizer = new Summarizer(new RefHtmlParser());
                     break;
                 case ReflectorType.Xlx:
-                    aggregator = new ReflectorAggregator("xlx-reflectors.html", new XlxListHtmlParser());
+                    aggregator = new ReflectorAggregator(
+                        "xlx-reflectors.html",
+                        "http://oe1phs.ddns.net/db/index.php?show=reflectors",
+                        new XlxListHtmlParser());
                     summarizer = new Summarizer(new XlxHtmlParser());
                     break;
             }

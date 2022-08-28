@@ -2,7 +2,7 @@
   "profiles": {
     "DStarDash": {
       "commandName": "Project",
-      "commandLineArgs": " --sortby Last --top 15  --download"
+      "commandLineArgs": "--type Xlx --top 15"
     }
   }
 }

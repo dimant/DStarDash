@@ -8,7 +8,6 @@
 
         public Reflector(
             string name,
-            string version,
             IEnumerable<ReflectorHeardUser> heardUsers)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));

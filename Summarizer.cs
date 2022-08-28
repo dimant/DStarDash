@@ -58,7 +58,7 @@
                     
                     if (nHeard > 0)
                     {
-                        last = reflector?.HeardUsers.MaxBy(x => x.HeardAt);
+                        last = reflector?.HeardUsers.MaxBy(x => x.LastHeard);
                     }
 
                     if (reflector != null)
@@ -68,7 +68,7 @@
                             location,
                             Status.OK,
                             nHeard ?? 0,
-                            last?.HeardAt ?? DateTime.MinValue,
+                            last?.LastHeard ?? DateTime.MinValue,
                             busiestModule);
                         result.Add(statsRow);
                     }
