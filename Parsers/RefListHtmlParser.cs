@@ -5,7 +5,7 @@
 
     public class RefListHtmlParser : ReflectorListHtmlParser
     {
-        public override IEnumerable<ReflectorModule> Parse(HtmlDocument doc)
+        public override IEnumerable<ReflectorModule> Parse(HtmlDocument doc, string uri)
         {
             var reflectorModules = new List<ReflectorModule>();
 
@@ -27,8 +27,8 @@
                     .SelectSingleNode(".//span[contains(@id,'LinksLabel')]/a[.='Status']")?
                     .GetAttributeValue("href", "");
 
-                var uri = new Uri(url ?? string.Empty);
-                var name = uri.Host.Split('.').First();
+                var parsedUri = new Uri(url ?? string.Empty);
+                var name = parsedUri.Host.Split('.').First();
 
                 var reflectorModule = new ReflectorModule()
                 {

@@ -10,7 +10,7 @@
             var doc = new HtmlDocument();
             doc.Load(path);
 
-            return Parse(doc);
+            return Parse(doc, path);
         }
 
         public Reflector? ParseFromUrl(string url)
@@ -18,10 +18,10 @@
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return Parse(doc);
+            return Parse(doc, url);
         }
 
-        public Reflector? Parse(HtmlDocument doc)
+        public Reflector? Parse(HtmlDocument doc, string uri)
         {
             var refsysname = doc.DocumentNode.SelectSingleNode("//table/tr/td/table/tr/td/strong[contains(.,'Reflector System')]").InnerHtml;
             var name = refsysname.Split(' ')[0];

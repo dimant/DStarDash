@@ -2,7 +2,7 @@
   "profiles": {
     "DStarDash": {
       "commandName": "Project",
-      "commandLineArgs": "--type Xlx --top 15"
+      "commandLineArgs": "--type Xlx"
     }
   }
 }

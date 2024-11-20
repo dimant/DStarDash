@@ -10,7 +10,7 @@
             var doc = new HtmlDocument();
             doc.Load(path);
 
-            return Parse(doc);
+            return Parse(doc, path);
         }
 
         public Reflector? ParseFromUrl(string url)
@@ -18,10 +18,10 @@
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return Parse(doc);
+            return Parse(doc, url);
         }
 
-        public virtual Reflector? Parse(HtmlDocument doc)
+        public virtual Reflector? Parse(HtmlDocument doc, string uri)
         {
             throw new NotImplementedException();
         }

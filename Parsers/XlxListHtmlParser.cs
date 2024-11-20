@@ -5,7 +5,7 @@
 
     internal class XlxListHtmlParser : ReflectorListHtmlParser
     {
-        public override IEnumerable<ReflectorModule> Parse(HtmlDocument doc)
+        public override IEnumerable<ReflectorModule> Parse(HtmlDocument doc, string uri)
         {
             var reflectorModules = new List<ReflectorModule>();
 

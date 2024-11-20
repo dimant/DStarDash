@@ -26,18 +26,18 @@
             }
         }
 
-        public override Reflector? Parse(HtmlDocument doc)
+        public override Reflector? Parse(HtmlDocument doc, string uri)
         {
             var name = doc.DocumentNode.SelectSingleNode("//title")?.InnerText.Split(' ')[0] ?? String.Empty;
 
-            var table = FindHeardUsersTable(doc);
+            var table = FindHeardUsersTable(doc, uri);
 
             if (table == null)
             {
                 return null;
             }
 
-            var columnAssociations = ParseColumns(table);
+            var columnAssociations = ParseColumns(table, uri);
             var rows = table.SelectNodes(".//tr");
 
             var heardUsers = new List<ReflectorHeardUser>();
@@ -67,7 +67,7 @@
             return reflector;
         }
 
-        public HtmlNode? FindHeardUsersTable(HtmlDocument doc)
+        public HtmlNode? FindHeardUsersTable(HtmlDocument doc, string uri)
         {
             var node = doc.DocumentNode.SelectSingleNode("//table//tr/th[contains(.,'Last heard')]");
 
@@ -155,15 +155,16 @@
                 && !doc.ParsedText.Contains("This is the default welcome page used to test the correct")
                 && !doc.ParsedText.Contains("Welcome to CentOS")
                 && !doc.ParsedText.Contains("The requested URL was not found on this server.")
-                && !doc.ParsedText.Contains("You don't have permission to access this resource."))
+                && !doc.ParsedText.Contains("You don't have permission to access this resource.")
+                && !doc.ParsedText.Contains("FreeSTAR Network Official XLX Multimode Reflector"))
             {
-                throw new Exception("Couldn't find heard users table.");
+                throw new Exception($"Couldn't find heard users table for {uri}");
             }
 
             return null;
         }
 
-        private IDictionary<ColumnType, ColumnAssociation> ParseColumns(HtmlNode table)
+        private IDictionary<ColumnType, ColumnAssociation> ParseColumns(HtmlNode table, string uri)
         {
             var thNodes = table.SelectNodes(".//th[not(.//table)]");
             var result = new Dictionary<ColumnType, ColumnAssociation>();
@@ -212,7 +213,7 @@
             if (!(result.Count() == 3
                 ||(result.Count() == 2 && result.ContainsKey(ColumnType.HeardOn) == false)))
             {
-                throw new Exception("Couldn't find all columns.");
+                throw new Exception($"Couldn't find all columns for {uri}");
             }
 
             return result;
