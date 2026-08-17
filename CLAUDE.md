@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A .NET 6 console app that scrapes D-STAR ham radio *reflector* dashboards (web pages hosted by individual reflector operators), aggregates "heard user" activity across them, and prints a sortable stats table to the terminal. It supports two distinct reflector networks — `Ref` (dstarinfo.com) and `Xlx` (oe1phs.ddns.net) — each with its own listing page format and per-reflector dashboard format.
+A .NET 10 console app that scrapes D-STAR ham radio *reflector* dashboards (web pages hosted by individual reflector operators), aggregates "heard user" activity across them, and prints a sortable stats table to the terminal. It supports two distinct reflector networks — `Ref` (dstarinfo.com) and `Xlx` (oe1phs.ddns.net) — each with its own listing page format and per-reflector dashboard format.
 
 ## Commands
 
@@ -15,9 +15,7 @@ dotnet run -- --type Ref --download                # download fresh HTML, then p
 dotnet run -- --type Xlx --sortby Heard --top 10   # sort + limit output
 ```
 
-CLI flags come from `Program.Main`'s parameters via **System.CommandLine.DragonFruit** — adding a parameter to `Main` creates a new flag automatically. Flags: `--type` (`Ref`|`Xlx`), `--download` (bool), `--sortby` (`Name`|`Status`|`Heard`|`Last`), `--top` (int). Omitting `--type` uses the enum default (`Ref`); the `switch` in `Main` handles only `Ref`/`Xlx` with no `default` case.
-
-Note: the app targets **net6.0** (EOL). If only a newer runtime is installed the app won't launch, though it still builds. The test project targets net10.0 for this reason.
+CLI flags come from `Program.Main`'s parameters via **System.CommandLine.DragonFruit** — adding a parameter to `Main` creates a new flag automatically. Flags: `--type` (`Ref`|`Xlx`), `--download` (bool), `--sortby` (`Name`|`Status`|`Heard`|`Last`), `--top` (int). Omitting `--type` uses the enum default (`Ref`); the `switch` in `Program.Build` handles only `Ref`/`Xlx` with a `Ref` default.
 
 There are no tests. Verification is manual: run against the checked-in `sample-data/` fixtures.
 
@@ -28,7 +26,7 @@ There are no tests. Verification is manual: run against the checked-in `sample-d
 3. **Summarize** (`Summarizer.Summarize`): for each reflector, reads the cached `{Name}.html`, parses it into a `Reflector` (name + `HeardUsers`), and computes a `StatsRow`: heard-user count, most-recent `LastHeard`, and busiest module. A missing `{Name}.html` yields `Status.Fail`.
 4. **Print** (`Program.PrintStats`): sorts, applies `--top`, renders with **ConsoleTables**.
 
-All downloaded/cached HTML files land in the **current working directory** (e.g. `bin/Debug/net6.0/` under `dotnet run`), not a dedicated data dir.
+All downloaded/cached HTML files land in a **`data/` directory** under the working directory (gitignored). `Program.DataDirectory` is the single source of truth: it's baked into the aggregator's `ReflectorsPath` and passed to the `Summarizer`, and per-reflector paths are built via `ReflectorFile.PathFor(dir, name)` (which also sanitizes the scraped name against path traversal). Download and read sides must agree on this path.
 
 ## Parser architecture
 

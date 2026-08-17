@@ -18,5 +18,8 @@ namespace DStarDash
 
             return safe + ".html";
         }
+
+        public static string PathFor(string directory, string reflectorName)
+            => Path.Combine(directory ?? string.Empty, NameFor(reflectorName));
     }
 }

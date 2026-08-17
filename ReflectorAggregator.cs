@@ -21,9 +21,16 @@
             this.reflectorListHtmlParser = reflectorListHtmlParser ?? throw new ArgumentNullException(nameof(reflectorListHtmlParser));
         }
 
+        public string DataDirectory => Path.GetDirectoryName(this.ReflectorsPath) ?? string.Empty;
+
         public void DownloadReflectorData(Action<int, int>? progress = null)
         {
             var downloader = new HttpDownloader();
+
+            if (!string.IsNullOrEmpty(this.DataDirectory))
+            {
+                Directory.CreateDirectory(this.DataDirectory);
+            }
 
             downloader.DownloadFileAsync(this.ReflectorsUrl, this.ReflectorsPath).Wait();
 
@@ -56,7 +63,7 @@
             {
                 var name = reflectors[key].First().Name;
 
-                var path = ReflectorFile.NameFor(name);
+                var path = ReflectorFile.PathFor(this.DataDirectory, name);
 
                 try
                 {

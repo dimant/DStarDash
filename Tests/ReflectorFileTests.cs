@@ -30,5 +30,19 @@ namespace DStarDash.Tests
                 Assert.DoesNotContain(invalid, name);
             }
         }
+
+        [Fact]
+        public void PathForCombinesDirectoryWithSanitizedName()
+        {
+            Assert.Equal(Path.Combine("data", "XLX801.html"), ReflectorFile.PathFor("data", "XLX801"));
+        }
+
+        [Fact]
+        public void PathForKeepsReflectorInsideDirectoryDespiteTraversalName()
+        {
+            var path = ReflectorFile.PathFor("data", "../../etc/passwd");
+
+            Assert.Equal("data", Path.GetDirectoryName(path));
+        }
     }
 }

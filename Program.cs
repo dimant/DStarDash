@@ -28,6 +28,8 @@ namespace DStarDash
             PrintStats(aggregator, summarizer, sortby, top);
         }
 
+        public const string DataDirectory = "data";
+
         public static (ReflectorAggregator, Summarizer) Build(ReflectorType type)
         {
             switch (type)
@@ -35,18 +37,18 @@ namespace DStarDash
                 case ReflectorType.Xlx:
                     return (
                         new ReflectorAggregator(
-                            "xlx-reflectors.html",
+                            Path.Combine(DataDirectory, "xlx-reflectors.html"),
                             "http://oe1phs.ddns.net/db/index.php?show=reflectors",
                             new XlxListHtmlParser()),
-                        new Summarizer(new XlxHtmlParser()));
+                        new Summarizer(new XlxHtmlParser(), DataDirectory));
                 case ReflectorType.Ref:
                 default:
                     return (
                         new ReflectorAggregator(
-                            "ref-reflectors.html",
+                            Path.Combine(DataDirectory, "ref-reflectors.html"),
                             "http://apps.dstarinfo.com/reflectors.aspx",
                             new RefListHtmlParser()),
-                        new Summarizer(new RefHtmlParser()));
+                        new Summarizer(new RefHtmlParser(), DataDirectory));
             }
         }
 

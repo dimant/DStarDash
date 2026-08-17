@@ -12,7 +12,8 @@ Prioritized work to fix correctness bugs and reduce the ongoing maintenance burd
 | 4 | Add parser tests around `sample-data/` fixtures | High | M | ☑ Done |
 | 5 | Move Xlx headers / date formats / allowlist to config (data-driven) | Medium | M | ☑ Done |
 | 6 | Surface download failures instead of swallowing them | Medium | S | ☑ Done |
-| 7 | Sanitize filenames; write cache to a dedicated data directory | Medium | S | ◐ Partial (sanitize done; data dir pending) |
+| 7 | Sanitize filenames; write cache to a dedicated data directory | Medium | S | ☑ Done |
+| 11 | Retarget app from EOL net6.0 to net10.0 | Medium | XS | ☑ Done |
 | 8 | Drop static mutable state in `Program` (note: `--type` already defaults to `Ref`) | Low | S | ☑ Done |
 | 9 | Flesh out `README.md` and CLI `--help` description | Low | XS | ☑ Done |
 | 10 | Fix `RefListHtmlParser` crash on rows without a Status URL (skip them) | High | XS | ☑ Done |
@@ -42,9 +43,11 @@ Status legend: ☐ Not started · ◐ In progress · ☑ Done
 ### 6. Surface download failures (Medium) — Done
 The empty `catch` made a failed download indistinguishable from a reflector with no activity; both later showed `Status.Fail` with no reason. Extracted a testable `ReflectorAggregator.DownloadReflectors(...)` that collects the names of reflectors whose download threw (via a `ConcurrentBag`) and returns them; `DownloadReflectorData` now prints a summary of failures to stderr. Introduced an `IFileDownloader` seam (implemented by `HttpDownloader`) so this is unit-tested with a fake in `ReflectorAggregatorTests` — no network needed.
 
-### 7. Filenames and cache location (Medium) — Partial
-Sanitization done: `{Name}.html` used the scraped reflector name directly as a path (collision / traversal / invalid-char risk). Added `ReflectorFile.NameFor` which replaces `Path.GetInvalidFileNameChars()` with `_`; both the download (`ReflectorAggregator`) and read (`Summarizer`) sides now go through it so they always agree. Covered by `ReflectorFileTests`.
-**Still pending:** writing the cache to a dedicated data directory instead of the working dir (`bin/Debug/net6.0/`) — deferred because it also touches the listing-file paths constructed in `Program`.
+### 7. Filenames and cache location (Medium) — Done
+Sanitization: `{Name}.html` used the scraped reflector name directly as a path (collision / traversal / invalid-char risk). Added `ReflectorFile.NameFor` which replaces `Path.GetInvalidFileNameChars()` with `_`, and `ReflectorFile.PathFor(dir, name)` which combines it with the data directory. Data directory: all cache files now live under `data/` (gitignored). `Program.DataDirectory` is the single source — baked into the aggregator's `ReflectorsPath` (so the listing file and, via `ReflectorAggregator.DataDirectory`, the per-reflector downloads land there) and passed to the `Summarizer` so reads match. `DownloadReflectorData` creates the directory. Covered by `ReflectorFileTests`; verified end-to-end by a live run (see #11).
+
+### 11. Retarget to net10.0 (Medium) — Done
+The app targeted EOL **net6.0** and could not even launch on this machine (only the net10 runtime is installed). Bumped `TargetFramework` to net10.0; builds clean with no code changes and no EOL warning. Verified with a real run (`--type Xlx --sortby Heard`): the app reads the listing + per-reflector files from `data/`, and a staged `XLX801` dashboard renders as **31 heard users, busiest module A** — exercising the #1 fix through the full pipeline.
 
 ### 8. Program entrypoint hygiene (Low) — Done
 Removed the static mutable `aggregator`/`summarizer` fields. `Main` now builds the object graph via `Build(type)` and threads the instances through `PrintStats`. The `--sortby` logic is extracted into `Program.Sort(list, sortby)` and unit-tested in `ProgramSortTests`. (Correction to an earlier note: `--type` is **not** a crash risk — `ReflectorType` defaults to `Ref`, so the `switch` always binds; there is simply no `default` case.)
