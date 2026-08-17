@@ -27,7 +27,12 @@
                     .SelectSingleNode(".//span[contains(@id,'LinksLabel')]/a[.='Status']")?
                     .GetAttributeValue("href", "");
 
-                var parsedUri = new Uri(url ?? string.Empty);
+                if (string.IsNullOrEmpty(url))
+                {
+                    continue;
+                }
+
+                var parsedUri = new Uri(url);
                 var name = parsedUri.Host.Split('.').First();
 
                 var reflectorModule = new ReflectorModule()

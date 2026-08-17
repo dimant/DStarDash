@@ -7,9 +7,12 @@
     {
         private IReflectorHtmlParser reflectorHtmlParser;
 
-        public Summarizer(IReflectorHtmlParser reflectorHtmlParser)
+        private readonly string dataDirectory;
+
+        public Summarizer(IReflectorHtmlParser reflectorHtmlParser, string dataDirectory = "")
         {
             this.reflectorHtmlParser = reflectorHtmlParser ?? throw new ArgumentNullException(nameof(reflectorHtmlParser));
+            this.dataDirectory = dataDirectory ?? string.Empty;
         }
 
         public List<StatsRow> Summarize(IDictionary<string, List<ReflectorModule>> reflectors)
@@ -19,7 +22,7 @@
             foreach (var key in reflectors.Keys)
             {
                 var name = reflectors[key].First().Name;
-                var path = $"{name}.html";
+                var path = ReflectorFile.PathFor(this.dataDirectory, name);
                 var location = reflectors[key].Select(x => x.Location).First();
 
                 if (!File.Exists(path))

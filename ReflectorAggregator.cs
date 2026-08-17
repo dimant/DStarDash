@@ -21,22 +21,49 @@
             this.reflectorListHtmlParser = reflectorListHtmlParser ?? throw new ArgumentNullException(nameof(reflectorListHtmlParser));
         }
 
+        public string DataDirectory => Path.GetDirectoryName(this.ReflectorsPath) ?? string.Empty;
+
         public void DownloadReflectorData(Action<int, int>? progress = null)
         {
             var downloader = new HttpDownloader();
+
+            if (!string.IsNullOrEmpty(this.DataDirectory))
+            {
+                Directory.CreateDirectory(this.DataDirectory);
+            }
 
             downloader.DownloadFileAsync(this.ReflectorsUrl, this.ReflectorsPath).Wait();
 
             var reflectors = this.ReflectorsFromFile(this.ReflectorsPath);
 
-            int n = reflectors.Keys.Count();
-            int i = 0;
+            var failures = this.DownloadReflectors(reflectors, downloader, progress);
+
+            if (failures.Count > 0)
+            {
+                Console.Error.WriteLine(
+                    $"Failed to download {failures.Count} of {reflectors.Count} reflectors: {string.Join(", ", failures)}");
+            }
+        }
+
+        /// <summary>
+        /// Downloads each reflector's dashboard in parallel, returning the names of
+        /// reflectors whose download threw. Separated from <see cref="DownloadReflectorData"/>
+        /// so failure handling is testable without hitting the network.
+        /// </summary>
+        public IReadOnlyList<string> DownloadReflectors(
+            IDictionary<string, List<ReflectorModule>> reflectors,
+            IFileDownloader downloader,
+            Action<int, int>? progress)
+        {
+            int n = reflectors.Count;
+            int completed = 0;
+            var failures = new System.Collections.Concurrent.ConcurrentBag<string>();
 
             Parallel.ForEach(reflectors.Keys, (key) =>
             {
                 var name = reflectors[key].First().Name;
 
-                var path = $"{name}.html";
+                var path = ReflectorFile.PathFor(this.DataDirectory, name);
 
                 try
                 {
@@ -44,15 +71,14 @@
                 }
                 catch (Exception /* e */)
                 {
+                    failures.Add(name);
                 }
 
-                if (progress != null)
-                {
-                    progress(i, n);
-                }
-
-                i++;
+                int done = Interlocked.Increment(ref completed);
+                progress?.Invoke(done, n);
             });
+
+            return failures.ToList();
         }
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromFile(string path)
