@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <meta name="description" content="XLX is a Digital Reflector System for Ham Radio Operators." />
+   <meta name="keywords"    content="Ham Radio, DMR, D-Star, XReflector, XLX, XRF, DCS, REF, YSF, " />
+   <meta name="author"      content="K9CHU" />
+   <meta name="revisit"     content="After 30 Days" />
+   <meta name="robots"      content="K9CHU" />
+   
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>XLX722 Reflector Dashboard</title>
+   <link rel="stylesheet" type="text/css" href="./css/layout.css">
+   <link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon">
+   <script src="./js/jquery-1.12.4.min.js"></script>
+   <script>
+      var PageRefresh;
+      
+      function ReloadPage() {
+         $.get("./index.php", function(data) {
+            var BodyStart = data.indexOf("<bo"+"dy");
+            var BodyEnd = data.indexOf("</bo"+"dy>");
+            if ((BodyStart >= 0) && (BodyEnd > BodyStart)) {
+               BodyStart = data.indexOf(">", BodyStart)+1;
+               $("body").html(data.substring(BodyStart, BodyEnd));
+            }
+         })
+            .always(function() {
+               PageRefresh = setTimeout(ReloadPage, 10000);
+            });
+      }
+      PageRefresh = setTimeout(ReloadPage, 10000);
+
+      function SuspendPageRefresh() {
+         clearTimeout(PageRefresh);
+      }
+   </script></head>
+<body>
+      <div id="top"><img src="./img/header.jpg" alt="XLX Multiprotocol Gateway Reflector" style="margin-top:15px;" />
+      <br />&nbsp;&nbsp;&nbsp;XLX722&nbsp;v2.5.3&nbsp;-&nbsp;Dashboard v2.4.2&nbsp;SuperSketch Reflector Bridge&nbsp;&nbsp;/&nbsp;&nbsp;Service uptime: <span id="suptime">793 days 14:11:39</span></div>
+   <div id="menubar">
+      <div id="menu">
+         <table border="0">
+            <tr>
+               <td><a href="./index.php" class="menulinkactive">Users / Modules</a></td>
+               <td><a href="./index.php?show=repeaters" class="menulink">Repeaters / Nodes (0)</a></td>
+               <td><a href="./index.php?show=peers" class="menulink">Peers (0)</a></td>
+               <td><a href="./index.php?show=modules" class="menulink">Modules list</a></td>
+               <td><a href="./index.php?show=reflectors" class="menulink">Reflectors list</a></td>
+                           </tr>
+          </table>
+      </div>
+   </div>
+   <div id="content" align="center">
+
+<table border="0">
+   <tr>
+      <td  valign="top">
+         
+
+<table class="listingtable">   
+ <tr>   
+   <th>#</th>
+   <th>Flag</th>
+   <th>Callsign</th>
+   <th>Suffix</th>
+   <th>DPRS</th>
+   <th>Via / Peer</th>
+   <th>Last heard</th>
+   <th align="center" valign="middle"><img src="./img/ear.png" alt="Listening on" /></th>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">1</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PY2PAO" class="pl" target="_blank">PY2PAO</a></td>
+   <td width="60">AMBE</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PY2PAO" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PY2PAO  C</td>
+   <td width="150">August 8, 2026 14:18</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+   <td align="center" valign="middle" width="35">2</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PY2OMB" class="pl" target="_blank">PY2OMB</a></td>
+   <td width="60">PORT</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PY2OMB" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PY2OMB  B</td>
+   <td width="150">August 4, 2026 08:48</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">3</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PY2BRD" class="pl" target="_blank">PY2BRD</a></td>
+   <td width="60">PORT</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PY2BRD" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PY2BRD  B</td>
+   <td width="150">July 28, 2026 15:03</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+   <td align="center" valign="middle" width="35">4</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PU2PLR" class="pl" target="_blank">PU2PLR</a></td>
+   <td width="60">ID51</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PU2PLR" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PU2PLR  B</td>
+   <td width="150">July 24, 2026 15:14</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">5</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PU2PRM" class="pl" target="_blank">PU2PRM</a></td>
+   <td width="60">M1KE</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PU2PRM" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PU2PRM  D</td>
+   <td width="150">July 9, 2026 17:26</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+   <td align="center" valign="middle" width="35">6</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/gr.png" height="15" alt="Greece" /><span>Greece</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/SV1BGM" class="pl" target="_blank">SV1BGM</a></td>
+   <td width="60">AMBE</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/SV1BGM" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">SV1BGM  D</td>
+   <td width="150">April 20, 2026 11:20</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">7</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/sh.png" height="15" alt="Scotland" /><span>Scotland</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/GM0RML" class="pl" target="_blank">GM0RML</a></td>
+   <td width="60">705</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/GM0RML" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">GM0RML  D</td>
+   <td width="150">January 24, 2026 08:17</td>
+   <td align="center" width="30">B</td>
+ </tr>
+  <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+   <td align="center" valign="middle" width="35">8</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/us.png" height="15" alt="United States" /><span>United States</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/N1LZF" class="pl" target="_blank">N1LZF</a></td>
+   <td width="60">AMBE</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/N1LZF" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">N1LZF   C</td>
+   <td width="150">October 23, 2025 23:51</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">9</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PU2ROE" class="pl" target="_blank">PU2ROE</a></td>
+   <td width="60">PORT</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PU2ROE" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PU2ROE  B</td>
+   <td width="150">July 30, 2025 17:37</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#F1FAFA" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#F1FAFA';">
+   <td align="center" valign="middle" width="35">10</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/br.png" height="15" alt="Brazil" /><span>Brazil</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/PU2MRS" class="pl" target="_blank">PU2MRS</a></td>
+   <td width="60">5100</td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/PU2MRS" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">PU2MRS  B</td>
+   <td width="150">July 30, 2025 17:37</td>
+   <td align="center" width="30">C</td>
+ </tr>
+  <tr height="30" bgcolor="#FFFFFF" onMouseOver="this.bgColor='#FFFFCA';" onMouseOut="this.bgColor='#FFFFFF';">
+   <td align="center" valign="middle" width="35">11</td>
+   <td align="center" width="60"><a href="#" class="tip"><img src="./img/flags/us.png" height="15" alt="United States" /><span>United States</span></a></td>
+   <td width="75"><a href="https://www.qrz.com/db/K9CHU" class="pl" target="_blank">K9CHU</a></td>
+   <td width="60"></td>
+   <td width="50" align="center"><a href="http://www.aprs.fi/K9CHU" class="pl" target="_blank"><img src="./img/sat.png" /></a></td>
+   <td width="150">K9CHU   D</td>
+   <td width="150">December 16, 2024 15:05</td>
+   <td align="center" width="30">A</td>
+ </tr> 
+ 
+</table>
+
+
+</td>
+<td style="padding-left:50px;" align="center" valign="top">
+   
+   
+
+
+<table class="listingtable">
+
+ <tr>
+</tr>
+<tr bgcolor="#FFFFFF" style="padding:0px;">
+</tr></table>    
+
+
+</td>
+</tr>
+</table>     
+
+   <div style="width:100%;text-align:center;margin-top:50px;"><a href="mailto:admin@k9chu.com" style="font-family:verdana;color:#000000;font-size:12pt;text-decoration:none;">admin@k9chu.com</a></div>
+
+   </div>
+
+</body>
+</html>
