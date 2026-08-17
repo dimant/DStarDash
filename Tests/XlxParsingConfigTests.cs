@@ -12,6 +12,7 @@ namespace DStarDash.Tests
         [InlineData("2022-08-28 17:35", 2022, 8, 28, 17, 35)]
         [InlineData("08.28.2022 17:35", 2022, 8, 28, 17, 35)]
         [InlineData("2022.08.28 17:35:00", 2022, 8, 28, 17, 35)]
+        [InlineData("August 8, 2026 14:18", 2026, 8, 8, 14, 18)]
         public void ParsesKnownDateFormats(string input, int y, int mo, int d, int h, int mi)
         {
             Assert.Equal(new DateTime(y, mo, d, h, mi, 0), config.ParseDate(input));

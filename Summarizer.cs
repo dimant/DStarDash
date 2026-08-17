@@ -27,17 +27,26 @@
 
                 if (!File.Exists(path))
                 {
-                    var status = Status.Fail;
-                    var statsRow = new StatsRow(name, location, status, 0, DateTime.MinValue, "");
-                    result.Add(statsRow);
+                    result.Add(new StatsRow(name, location, Status.Fail, 0, DateTime.MinValue, ""));
+                    continue;
                 }
-                else
+
+                // A single malformed reflector page (unknown date format, unexpected
+                // markup) must not take down the whole run — treat it like a failed
+                // download and mark just that reflector Fail.
+                try
                 {
                     var reflector = this.reflectorHtmlParser.ParseFromFile(path);
 
+                    if (reflector == null)
+                    {
+                        result.Add(new StatsRow(name, location, Status.Fail, 0, DateTime.MinValue, ""));
+                        continue;
+                    }
+
                     var heardOnCounts = new Dictionary<string, int>();
 
-                    foreach (var heardUser in reflector?.HeardUsers ?? new List<ReflectorHeardUser>())
+                    foreach (var heardUser in reflector.HeardUsers)
                     {
                         if (!heardOnCounts.ContainsKey(heardUser.HeardOn))
                         {
@@ -56,25 +65,22 @@
                         busiestModule = heardOnCounts.MaxBy(x => x.Value).Key;
                     }
 
-                    var nHeard = reflector?.HeardUsers.Count();
-                    ReflectorHeardUser? last = null;
-                    
-                    if (nHeard > 0)
-                    {
-                        last = reflector?.HeardUsers.MaxBy(x => x.LastHeard);
-                    }
+                    var nHeard = reflector.HeardUsers.Count();
+                    ReflectorHeardUser? last = nHeard > 0
+                        ? reflector.HeardUsers.MaxBy(x => x.LastHeard)
+                        : null;
 
-                    if (reflector != null)
-                    {
-                        var statsRow = new StatsRow(
-                            reflector.Name,
-                            location,
-                            Status.OK,
-                            nHeard ?? 0,
-                            last?.LastHeard ?? DateTime.MinValue,
-                            busiestModule);
-                        result.Add(statsRow);
-                    }
+                    result.Add(new StatsRow(
+                        reflector.Name,
+                        location,
+                        Status.OK,
+                        nHeard,
+                        last?.LastHeard ?? DateTime.MinValue,
+                        busiestModule));
+                }
+                catch (Exception)
+                {
+                    result.Add(new StatsRow(name, location, Status.Fail, 0, DateTime.MinValue, ""));
                 }
             }
 

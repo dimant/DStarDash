@@ -43,6 +43,7 @@ namespace DStarDash.Parsers
             "dd.MM.yyyy - HH:mm",
             "yyyy-MM-dd HH:mm",
             "MM/dd/yyyy HH:mm:ss",
+            "MMMM d, yyyy HH:mm",
             "HH:mm",
         };
 
