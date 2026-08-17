@@ -11,9 +11,9 @@ Prioritized work to fix correctness bugs and reduce the ongoing maintenance burd
 | 3 | Share a single `HttpClient`, make downloads async, add timeout | High | S | ☑ Done |
 | 4 | Add parser tests around `sample-data/` fixtures | High | M | ☑ Done |
 | 5 | Move Xlx headers / date formats / allowlist to config (data-driven) | Medium | M | ☐ Not started |
-| 6 | Surface download failures instead of swallowing them | Medium | S | ☐ Not started |
-| 7 | Sanitize filenames; write cache to a dedicated data directory | Medium | S | ☐ Not started |
-| 8 | Require/validate `--type`; drop static mutable state in `Program` | Low | S | ☐ Not started |
+| 6 | Surface download failures instead of swallowing them | Medium | S | ☑ Done |
+| 7 | Sanitize filenames; write cache to a dedicated data directory | Medium | S | ◐ Partial (sanitize done; data dir pending) |
+| 8 | Drop static mutable state in `Program` (note: `--type` already defaults to `Ref`) | Low | S | ☐ Not started |
 | 9 | Flesh out `README.md` and CLI `--help` description | Low | XS | ☐ Not started |
 | 10 | Fix `RefListHtmlParser` crash on rows without a Status URL (skip them) | High | XS | ☑ Done |
 
@@ -38,14 +38,15 @@ Status legend: ☐ Not started · ◐ In progress · ☑ Done
 ### 5. Make Xlx special-casing data-driven (Medium)
 `XlxHtmlParser` bakes three hardcoded lists into C#: multilingual column headers (`FindHeardUsersTable`/`ParseColumns`), date formats (`ParseDate`), and a ~25-entry non-dashboard allowlist. Every new broken reflector means a recompile. Move these to a config file so the maintenance loop is edit-data-not-code. Collapse the `ParseDate` try-catch ladder into a `string[]` of formats via `DateTime.TryParseExact`.
 
-### 6. Surface download failures (Medium)
-`ReflectorAggregator.cs:45-47` — the empty `catch` makes a failed download indistinguishable from a reflector with no activity; both later show `Status.Fail` with no reason. At minimum log and count failures.
+### 6. Surface download failures (Medium) — Done
+The empty `catch` made a failed download indistinguishable from a reflector with no activity; both later showed `Status.Fail` with no reason. Extracted a testable `ReflectorAggregator.DownloadReflectors(...)` that collects the names of reflectors whose download threw (via a `ConcurrentBag`) and returns them; `DownloadReflectorData` now prints a summary of failures to stderr. Introduced an `IFileDownloader` seam (implemented by `HttpDownloader`) so this is unit-tested with a fake in `ReflectorAggregatorTests` — no network needed.
 
-### 7. Filenames and cache location (Medium)
-`{Name}.html` uses the scraped reflector name directly as a path (collision / path-safety risk) and lands in the working directory (`bin/Debug/net6.0/`). Sanitize names and write to a dedicated data directory.
+### 7. Filenames and cache location (Medium) — Partial
+Sanitization done: `{Name}.html` used the scraped reflector name directly as a path (collision / traversal / invalid-char risk). Added `ReflectorFile.NameFor` which replaces `Path.GetInvalidFileNameChars()` with `_`; both the download (`ReflectorAggregator`) and read (`Summarizer`) sides now go through it so they always agree. Covered by `ReflectorFileTests`.
+**Still pending:** writing the cache to a dedicated data directory instead of the working dir (`bin/Debug/net6.0/`) — deferred because it also touches the listing-file paths constructed in `Program`.
 
 ### 8. Program entrypoint hygiene (Low)
-`Program` uses static mutable `aggregator`/`summarizer` fields, and `--type` has no default — omitting it NREs in `PrintStats`. Build a proper object graph in `Main` and require/validate `--type`.
+`Program` uses static mutable `aggregator`/`summarizer` fields — build a proper object graph in `Main`. (Correction to an earlier note: `--type` is **not** a crash risk — `ReflectorType` defaults to `Ref`, so the `switch` always binds; there is simply no `default` case.)
 
 ### 9. Docs (Low)
 `README.md` is a single line. Add usage, the two network types, and a CLI description surfaced through `--help`.

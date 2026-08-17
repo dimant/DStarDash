@@ -1,6 +1,6 @@
 namespace DStarDash
 {
-    public class HttpDownloader
+    public class HttpDownloader : IFileDownloader
     {
         private static readonly HttpClient SharedClient = new HttpClient
         {

@@ -29,14 +29,34 @@
 
             var reflectors = this.ReflectorsFromFile(this.ReflectorsPath);
 
-            int n = reflectors.Keys.Count();
+            var failures = this.DownloadReflectors(reflectors, downloader, progress);
+
+            if (failures.Count > 0)
+            {
+                Console.Error.WriteLine(
+                    $"Failed to download {failures.Count} of {reflectors.Count} reflectors: {string.Join(", ", failures)}");
+            }
+        }
+
+        /// <summary>
+        /// Downloads each reflector's dashboard in parallel, returning the names of
+        /// reflectors whose download threw. Separated from <see cref="DownloadReflectorData"/>
+        /// so failure handling is testable without hitting the network.
+        /// </summary>
+        public IReadOnlyList<string> DownloadReflectors(
+            IDictionary<string, List<ReflectorModule>> reflectors,
+            IFileDownloader downloader,
+            Action<int, int>? progress)
+        {
+            int n = reflectors.Count;
             int completed = 0;
+            var failures = new System.Collections.Concurrent.ConcurrentBag<string>();
 
             Parallel.ForEach(reflectors.Keys, (key) =>
             {
                 var name = reflectors[key].First().Name;
 
-                var path = $"{name}.html";
+                var path = ReflectorFile.NameFor(name);
 
                 try
                 {
@@ -44,11 +64,14 @@
                 }
                 catch (Exception /* e */)
                 {
+                    failures.Add(name);
                 }
 
                 int done = Interlocked.Increment(ref completed);
                 progress?.Invoke(done, n);
             });
+
+            return failures.ToList();
         }
 
         public IDictionary<string, List<ReflectorModule>> ReflectorsFromFile(string path)

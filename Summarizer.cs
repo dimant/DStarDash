@@ -19,7 +19,7 @@
             foreach (var key in reflectors.Keys)
             {
                 var name = reflectors[key].First().Name;
-                var path = $"{name}.html";
+                var path = ReflectorFile.NameFor(name);
                 var location = reflectors[key].Select(x => x.Location).First();
 
                 if (!File.Exists(path))

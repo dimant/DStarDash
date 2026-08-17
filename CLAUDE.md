@@ -15,7 +15,9 @@ dotnet run -- --type Ref --download                # download fresh HTML, then p
 dotnet run -- --type Xlx --sortby Heard --top 10   # sort + limit output
 ```
 
-CLI flags come from `Program.Main`'s parameters via **System.CommandLine.DragonFruit** — adding a parameter to `Main` creates a new flag automatically. Flags: `--type` (`Ref`|`Xlx`), `--download` (bool), `--sortby` (`Name`|`Status`|`Heard`|`Last`), `--top` (int). `--type` is effectively required — the `switch` in `Main` has no default, so omitting it leaves the aggregator/summarizer null and `PrintStats` throws.
+CLI flags come from `Program.Main`'s parameters via **System.CommandLine.DragonFruit** — adding a parameter to `Main` creates a new flag automatically. Flags: `--type` (`Ref`|`Xlx`), `--download` (bool), `--sortby` (`Name`|`Status`|`Heard`|`Last`), `--top` (int). Omitting `--type` uses the enum default (`Ref`); the `switch` in `Main` handles only `Ref`/`Xlx` with no `default` case.
+
+Note: the app targets **net6.0** (EOL). If only a newer runtime is installed the app won't launch, though it still builds. The test project targets net10.0 for this reason.
 
 There are no tests. Verification is manual: run against the checked-in `sample-data/` fixtures.
 
