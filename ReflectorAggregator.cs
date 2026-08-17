@@ -30,7 +30,7 @@
             var reflectors = this.ReflectorsFromFile(this.ReflectorsPath);
 
             int n = reflectors.Keys.Count();
-            int i = 0;
+            int completed = 0;
 
             Parallel.ForEach(reflectors.Keys, (key) =>
             {
@@ -46,12 +46,8 @@
                 {
                 }
 
-                if (progress != null)
-                {
-                    progress(i, n);
-                }
-
-                i++;
+                int done = Interlocked.Increment(ref completed);
+                progress?.Invoke(done, n);
             });
         }
 

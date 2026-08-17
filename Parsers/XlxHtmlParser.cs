@@ -61,6 +61,8 @@
                 remoteUser.Callsign = callSignColumn.InnerText;
                 remoteUser.LastHeard = ParseDate(lastHeardColumn.InnerText);
                 remoteUser.HeardOn = heardOnColumn.InnerText;
+
+                heardUsers.Add(remoteUser);
             }
 
             var reflector = new Reflector(name, heardUsers);
